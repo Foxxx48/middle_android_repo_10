@@ -3,13 +3,15 @@ package ru.yandex.buggyweatherapp.utils
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import java.util.TimeZone
 
 object WeatherIconMapper {
-    
-    
-    fun formatTimestamp(timestamp: Long): String {
-        val date = Date(timestamp * 1000)
+
+    fun formatTimestamp(timestamp: Long, timezoneOffset: Int): String {
+        val adjustedTime = (timestamp + timezoneOffset) * 1000L
+        val date = Date(adjustedTime)
         val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())
+        sdf.timeZone = TimeZone.getTimeZone("UTC") // фиксируем зону, чтобы не сдвигалось снова
         return sdf.format(date)
     }
     
